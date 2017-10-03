@@ -1,0 +1,274 @@
+html, body {
+            height: 90%;
+            width: 100%;
+        }
+
+#contenedor, #map {
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    border-top: 6px solid grey;
+    
+   
+}
+ 
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+
+
+#layerSwitcher {
+    width: 100%;    
+    background-image: url("/images/fondo6_6.jpg"); 
+
+}
+
+.botoncolor{
+    color: #fff;
+    background-color: #a75757 !important;
+    border-color: black !important;
+    background-color: #a75757 !important;
+}
+
+.botoncolor2{
+    background-color: #e0729c !important;
+}
+
+
+.btn-mygroup {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+.botones{
+    margin-left: 40px;
+}
+
+.buttonStyle {
+   /*  width: 30.29%;
+      border: 2px solid #333;  */   
+    color: black;
+    line-height: 12px;
+    margin: 15px;
+    padding: 5px 2px;
+    height: 38px;
+    left: 266px;
+}
+.buttonsStyle {
+   /*  width: 30.29%;
+      border: 2px solid #333;  */   
+    color: black;
+    line-height: 12px;
+    margin: 15px;
+    padding: 5px 2px;
+    height: 38px;
+}
+
+.buttStyle {
+   /*  width: 30.29%;
+      border: 2px solid #333;  */   
+    color: black;
+    line-height: 12px;
+    margin: 15px;
+    padding: 5px 2px;
+    height: 38px;
+    left: 7px;
+}
+
+.minibuttonStyle {
+    width: 2.29%;
+    border: 2px solid #333;    
+    color: black;
+    line-height: 12px;
+    margin: 5px;
+    padding: 5px 2px;
+    height: 38px;
+}
+
+
+#layerSwitcher .btn-layer-switch.hijos  {
+    width: 30.29%;
+    border: 2px solid #333;    
+    color: black;
+    line-height: 12px;
+    margin: 5px;
+    padding: 5px 2px;
+    height: 38px;
+}
+
+#contenedorcito{
+    margin-left: 870px;
+}
+
+#grafos{
+    
+    z-index: 20;
+    top: 45px;
+    padding-top: 5px;    
+    position: relative;
+}
+
+
+.unvisible {
+  visibility: hidden;
+}
+
+.monitor{
+    position: absolute;
+}
+
+.monitor-title {    
+    position: absolute;
+    padding-top: 5px;
+    width: 500px;
+    height: 55px;
+    top: 5px;
+    left: 43px;
+    z-index: 20;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    background: #BC141A;
+    border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border: 0px solid #000000;
+    
+}
+
+
+footer {
+    text-align: center;
+    background-image: url("/images/fondo1.jpg");
+    
+    padding: 10px 0px;
+    
+}
+footer p {
+    font-size: 13px;
+    font-weight: bold;
+    color: #fcfff5;    
+}
+
+.selected {
+    width: 30.29%;
+    border: 2px solid #333;    
+    color: #fff;
+    line-height: 12px;
+    margin: 5px;
+    padding: 5px 2px;
+    height: 38px;
+    background-color: #EAA;
+}
+
+#sidebar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: rgba(96, 98, 108, .9);
+    border-right: 1px solid #42444e;
+    width: 220px;
+    height: 100%;
+    overflow: auto;
+}
+
+
+
+.awesome-marker i {
+        font-size: 18px;
+        margin-top: 8px;
+    }
+
+.menu_inicio {      
+    height: 46px;   
+}
+
+header {    
+    /* height: 100px; */ 
+    overflow: hidden;   
+}
+
+.image_fondo{
+    position: absolute;
+    top: -68px;
+}
+
+.fotos_popup{
+    width: 305px;
+    height: 183px;
+
+} 
+
+.activado {
+    background-color: red;
+}
+
+.active {
+    background-color: #ffd479;
+}
+
+.nav-tabs {
+    background-color: #e7e6ef;
+
+}
+
+.ubicacion {
+    position: relative;
+    top: -13px;
+    right: 150px;
+}
+
+.capas{
+    position: relative;
+    top: 38px;
+    right: 230px;
+
+}
+
+.navegador{
+    width: 900px !important;
+    position: relative;
+    left: -77px;
+
+}
+
+.cabecera{
+    background-image: url("/images/fondo6_7.jpg"); 
+/*     width: 100%;
+height: 85px;
+font-size: 40px; */
+}
+
+.nombre{
+    position: relative;
+    left:191px;
+    font-size: 40px;
+    color: black;
+    font-weight: bold;
+
+}
+
+#verdatos{
+    font-size: 20px;
+
+}
+
+#localizame{
+    font-size: 20px;
+}

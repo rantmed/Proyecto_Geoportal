@@ -6,7 +6,7 @@
     "node": "8.5.0",
     "npm": "5.3.0"
   },
-  "main": "index.js",
+  "main": "server.js",
   "dependencies": {
     "fs": "^0.0.1-security",
     "leaflet-choropleth": "^1.1.4",

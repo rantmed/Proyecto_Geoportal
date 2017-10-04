@@ -836,9 +836,7 @@ function showLayer(){
 return addLayer;   
 };
 
-var test = showLayer();
- //test();
- //console.log(test);
+
 
 function showPointLayer(){
 	$('#todo').addClass('unvisible');

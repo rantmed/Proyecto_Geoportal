@@ -6,8 +6,7 @@ var fs = require('fs');
 
 
 
-connect().use(serveStatic(__dirname)).listen(8000, function(){
-    console.log('Server running on 8000...');
+connect().use(serveStatic(__dirname)).listen(process.env.PORT || 8000)
 });
 // cd navega hasta la carpeta 
 // npm install connect serve-static

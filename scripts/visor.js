@@ -561,7 +561,7 @@ function showLayer(){
 	$.ajax({
 	  metod : 'GET',
 	  url: "https://"+cartoDBUserName+".carto.com/api/v2/sql?format=GeoJSON&q="+sqlQuery, 
-      async: false,  
+      //async: false,  
 	  context: this,
 	  dataType: 'json',
 	  success: addLayer });

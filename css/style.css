@@ -242,27 +242,57 @@ header {
 }
 
 .navegador{
-    width: 900px !important;
-    position: relative;
-    left: -77px;
-
+    width: 900px !important;  
 }
 
 .cabecera{
-    background-image: url("/images/background1.jpg"); 
+    background-image: url("/images/background.jpg"); 
 /*     width: 100%;
 height: 85px;
 font-size: 40px; */
 }
 
-.nombre{
-    position: relative;
-    left:191px;
+.titulo{   
     font-size: 40px;
     color: black;
     font-weight: bold;
 
 }
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="titulo"] {
+        font-size: 20px;
+    }
+    [class*="navegador"] {
+        width: 370px !important;
+    }
+    [class*="buttStyle"]{
+        color: black;
+        line-height: 12px;
+        margin: 3px;
+        padding: 5px 2px;
+        height: 39px;
+        left: 0px;
+    }
+    [class*="monitor-title"]{                
+        position: absolute;
+        padding-top: 5px;
+        width: 151px;
+        height: 65px;
+        top: 5px;
+        left: 43px;
+        z-index: 20;
+        color: #fff;
+        text-align: center;
+        font-size: 12px;
+        background: #BC141A;
+        border-radius: 3px 3px 3px 3px;
+        -moz-border-radius: 5px 5px 5px 5px;
+        -webkit-border-radius: 5px 5px 5px 5px;
+        border: 0px solid #000000;    
+
+    }
 
 #verdatos{
     font-size: 20px;

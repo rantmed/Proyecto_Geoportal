@@ -61,23 +61,25 @@ html, body {
 }
 
 .buttonStyle {
-   /*  width: 30.29%;
-      border: 2px solid #333;  */   
     color: black;
     line-height: 12px;
-    margin: 15px;
-    padding: 5px 2px;
+    margin: 5px;
+    padding: 1px 0px;
     height: 38px;
-    left: 266px;
+    
 }
 .buttonsStyle {
    /*  width: 30.29%;
       border: 2px solid #333;  */   
     color: black;
     line-height: 12px;
-    margin: 15px;
+    margin: 6px;
     padding: 5px 2px;
     height: 38px;
+}
+
+p {
+    margin: 0 0 0px important!;
 }
 
 .buttStyle {
@@ -259,41 +261,6 @@ font-size: 40px; */
 
 }
 
-@media only screen and (max-width: 768px) {
-    /* For mobile phones: */
-    [class*="titulo"] {
-        font-size: 20px;
-    }
-    [class*="navegador"] {
-        width: 370px !important;
-    }
-    [class*="buttStyle"]{
-        color: black;
-        line-height: 12px;
-        margin: 3px;
-        padding: 5px 2px;
-        height: 39px;
-        left: 0px;
-    }
-    [class*="monitor-title"]{                
-        position: absolute;
-        padding-top: 5px;
-        width: 151px;
-        height: 65px;
-        top: 5px;
-        left: 43px;
-        z-index: 20;
-        color: #fff;
-        text-align: center;
-        font-size: 12px;
-        background: #BC141A;
-        border-radius: 3px 3px 3px 3px;
-        -moz-border-radius: 5px 5px 5px 5px;
-        -webkit-border-radius: 5px 5px 5px 5px;
-        border: 0px solid #000000;    
-
-    }
-
 #verdatos{
     font-size: 20px;
 
@@ -302,3 +269,51 @@ font-size: 40px; */
 #localizame{
     font-size: 20px;
 }
+
+
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="titulo"] {
+        font-size: 20px;
+    }
+    [class*="navegador"] {
+        width: 370px !important;
+    }
+    [class*="buttStyle"]{       
+        margin: 3px;
+        padding: 5px 2px;
+        height: 39px;
+        left: 0px;
+    }
+
+    [class*="buttonStyle"]{      
+        height: 54px;        
+    }
+
+    button[type="button"]{
+        font-size: 10px;
+    }
+
+    .texto{
+        font-size: 10px;
+        margin: 0px !important;
+    }
+
+    #verdatos{
+        font-size: 10px;
+    }
+    #localizame{
+        font-size: 10px;
+    }
+
+    [class*="monitor-title"]{                
+        position: absolute;
+        padding-top: 5px;
+        width: 151px;
+        height: 65px;
+        top: 5px;        
+
+    }
+}
+

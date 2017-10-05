@@ -403,15 +403,14 @@ var cartoDBUserName = "rantmed87";
 
     // Function to add Style to park layer
 function getColorPark(d) {
-    return  d > 600000 ? '#004529' :
-            d > 500000 ? '#006837' :
-            d > 400000 ? '#238443' :
+    return  d > 600000 ? '#005824' :
+            d > 400000 ? '#238b45' :
             d > 300000 ? '#41ab5d' :
-            d > 200000 ? '#78c679' :
+            d > 200000 ? '#74c476' :
             d > 150000 ? '#addd8e' :
             d > 100000 ? '#d9f0a3' :
-            d > 50000 ? '#f7fcb9' :
-            '#ffffe5' ; 
+            d > 50000 ? '#ffffcc' :            
+            '#ffffcc' ; 
 }
 
 function getColorPopulation(d) {
@@ -514,32 +513,28 @@ $verdatos.on("click", function(e) {
 // Run showAll function automatically when document loads
 $poblacion.on("click", function(e) {
 	e.preventDefault();	
+  $('.info.legend.leaflet-control').empty();
 	showLayer(); 
-	
- 
 	
 });  
 
 // Run showAll function automatically when document loads
 $piramide.on('click', function(e) {
   e.preventDefault();  
-  showLayer(); 
-  $('#contenedorcito').empty();
-  $('.info.legend').empty();
+  $('.info.legend.leaflet-control').empty();
+  showLayer();   
 });
 
 $parques.on("click", function(e) {
 	e.preventDefault();  
+  $('.info.legend.leaflet-control').empty();
   showLayer(); 
-  $('#contenedorcito').empty();
-  $('.info.legend').empty();
 });
 
 $aire.on("click", function(e) {
   e.preventDefault();
-  showPointLayer(); 
-  $('#contenedorcito').empty();
-  $('.info.legend').empty();
+  $('.info.legend.leaflet-control').empty();
+  showPointLayer();  
   $('#todo').addClass('unvisible');
 });
 
@@ -613,24 +608,9 @@ function showLayer(){
 			  
 		}
 
-	    var legend = L.control({position: 'bottomright'});
 
-	    legend.onAdd = function (map) {
-
-			var div = L.DomUtil.create('div', 'info legend'),
-				grades = [30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000],
-				labels = [];
-
-			// loop through our density intervals and generate a label with a colored square for each interval
-			for (var i = 0; i < grades.length; i++) {
-				div.innerHTML +=
-				'<i style="background:' + getColorPopulation(grades[i] + 1) + '"></i> ' +
-				 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-			}
-			return div;
-	    };
-
-	    legend.addTo(map);
+    
+	 
 
 		
     	if (buttonClicked === 'poblacion'){
@@ -638,7 +618,23 @@ function showLayer(){
 		        geoJsonLayer = L.geoJson(data,{
 		            style: populationStyle,                              
 		            onEachFeature: onEachFeature
-		        }).addTo(map);  
+		        }).addTo(map);
+            var legend = L.control({position: 'bottomright'});
+            legend.onAdd = function (map) {
+
+            var div = L.DomUtil.create('div', 'info legend'),
+              grades = [30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000],
+              labels = [];
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+              div.innerHTML +=
+              '<i style="background:' + getColorPopulation(grades[i] + 1) + '"></i> ' +
+               grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            }
+            return div;
+            };
+            
+            legend.addTo(map);
             }
 
         else if (buttonClicked === 'piramide'){
@@ -647,6 +643,7 @@ function showLayer(){
 		            style: piramideStyle,                              
 		            onEachFeature: onEachFeature
 		        }).addTo(map);  
+
             }	
 
         else if (buttonClicked === 'parques'){
@@ -654,7 +651,7 @@ function showLayer(){
 		        geoJsonLayer = L.geoJson(data,{
 		            style: parkStyle,                              
 		            onEachFeature: 		function onEachFeature(feature, layer) {
-						layer.bindPopup('<p><b>' + feature.properties.distrito + '</b><br /><em>' + feature.properties.direccion + '</em></p>');
+						layer.bindPopup('<p><b>' + 'Distrito'+' '+feature.properties.distrito + '</b><br /><em>' + 'Superficie Total en m2 '+'  ' + feature.properties.parquestotal + '</em></p>');
 						layer.cartodb_id=feature.properties.cartodb_id;
 						layer.on({
 							mouseover: highlightFeature,
@@ -663,7 +660,23 @@ function showLayer(){
 						});
 					}
 
-		        }).addTo(map);  
+		        }).addTo(map); 
+                        var legend = L.control({position: 'bottomright'});
+            legend.onAdd = function (map) {
+
+            var div = L.DomUtil.create('div', 'info legend'),
+              grades = [50000, 100000, 150000, 200000, 300000, 400000, 600000],
+              labels = [];
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+              div.innerHTML +=
+              '<i style="background:' + getColorPark(grades[i] + 1) + '"></i> ' +
+               grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            }
+            return div;
+            };
+            
+            legend.addTo(map); 
             }
 
 		function addCharts(e) {
@@ -736,7 +749,7 @@ function showLayer(){
 					series: {               
 					}
 				},                
-				legend: {
+/*				legend: {
 					layout: 'horizontal',
 					align: 'right',
 					verticalAlign: 'top',
@@ -746,7 +759,7 @@ function showLayer(){
 					borderWidth: 1,
 					backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
 					shadow: true
-				},
+				},*/
 				credits: {
 					enabled: false
 				},
@@ -760,7 +773,37 @@ function showLayer(){
 					layer.feature.properties.datospoblacion_2015total,
 					layer.feature.properties.datospoblacion_2016total]
 
-				}]
+				}],
+        responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    align: 'center',
+                    verticalAlign: 'bottom',
+                    layout: 'horizontal'
+                },
+                yAxis: {
+                    labels: {
+                        align: 'left',
+                        x: 0,
+                        y: -5
+                    },
+                    title: {
+                        text: null
+                    }
+                },
+                subtitle: {
+                    text: null
+                },
+                credits: {
+                    enabled: false
+                }
+            }
+        }]
+    }
 			});  
 	            }
 

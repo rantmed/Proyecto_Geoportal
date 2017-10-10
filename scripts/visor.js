@@ -277,10 +277,10 @@ $bibliotecas.on("click", function(e) {
                     },
               onEachFeature: function (feature, layer) {
                 layer.bindPopup('<div>' + '<strong>' + feature.properties.nombre + '</strong>' + 
-'<br/><br/>' + feature.properties.direccion + 
-'<br/>' + feature.properties.telefono + '<br/><br/>' +
-'<a href="' + feature.properties.web + '"' +  'target="_blank"> Ir a la web </a></div>' +
-'<img class="fotos_popup" src="' + feature.properties.fotos + '"' +  '>  </img></div>');
+				'<br/><br/>' + feature.properties.direccion + 
+				'<br/>' + feature.properties.telefono + '<br/><br/>' +
+				'<a href="' + feature.properties.web + '"' +  'target="_blank"> Ir a la web </a></div>' +
+				'<img class="fotos_popup" src="' + feature.properties.fotos + '"' +  '>  </img></div>');
                 layer.cartodb_id=feature.properties.cartodb_id;
               }
             }).addTo(map);          
@@ -330,9 +330,9 @@ $mercados.on("click", function(e) {
                     },
               onEachFeature: function (feature, layer) {
                 layer.bindPopup('<div>' + '<strong>' + feature.properties.nombre + '</strong>' + 
-'<br/><br/>' + feature.properties.texto + 
-'<br/><br/>' + feature.properties.m_html + 
-'<img class="fotos_popup" src="' + feature.properties.foto + '"' +  '>  </img></div>');
+				'<br/><br/>' + feature.properties.texto + 
+				'<br/><br/>' + feature.properties.m_html + 
+				'<img class="fotos_popup" src="' + feature.properties.foto + '"' +  '>  </img></div>');
                 layer.cartodb_id=feature.properties.cartodb_id;
               }
             }).addTo(map);          
@@ -343,52 +343,6 @@ $mercados.on("click", function(e) {
 function removeMercados(){
   map.removeLayer(marketLocations);
  };
-
-
-/*$servicios.on("click", function(e) { 	
-	  // Set SQL Query that will return five closest coffee shops	  
-	  var sqlQueryClosest = "SELECT * FROM servicios_municipales ORDER BY the_geom <-> ST_SetSRID(ST_MakePoint("+myLocation.lng+","+myLocation.lat+"), 4326) LIMIT 5";
-
-	  // Get GeoJSON of five closest points to the user
-	  $.getJSON("https://"+cartoDBUserName+".carto.com/api/v2/sql?format=GeoJSON&q="+sqlQueryClosest, function(data) {
-	    coffeeShopLocations = L.geoJson(data, {
-	      pointToLayer: function (feature, latlng) {
-	              return L.marker(latlng, {icon:schoolIcon});
-	            },
-	      onEachFeature: function (feature, layer) {
-	        layer.bindPopup('' + feature.properties.nombre + '' + feature.properties.tipo + '' +  '' + feature.properties.direccion +  '' + feature.properties.telefono   );
-	        layer.cartodb_id=feature.properties.cartodb_id;
-	      }
-	    }).addTo(map);
-	  });
-
- });
-
-$bibliotecas.on("click", function(e) { 	
-	  // Set SQL Query that will return five closest coffee shops	  
-	  var sqlQueryClosest = "SELECT * FROM bibliotecas ORDER BY the_geom <-> ST_SetSRID(ST_MakePoint("+myLocation.lng+","+myLocation.lat+"), 4326) LIMIT 5";
-
-	  // Get GeoJSON of five closest points to the user
-	  $.getJSON("https://"+cartoDBUserName+".carto.com/api/v2/sql?format=GeoJSON&q="+sqlQueryClosest, function(data) {
-	    coffeeShopLocations = L.geoJson(data, {
-	      pointToLayer: function (feature, latlng) {
-	              return L.marker(latlng, {icon:schoolIcon});
-	            },
-	      onEachFeature: function (feature, layer) {
-	        layer.bindPopup('' + feature.properties.nombre + '' + feature.properties.tipo + '' +  '' + feature.properties.direccion +  '' + feature.properties.telefono   );
-	        layer.cartodb_id=feature.properties.cartodb_id;
-	      }
-	    }).addTo(map);
-	  });
-
- });
-
-$mercados.on("click", function(e) { 	
-	  // Set SQL Query that will return five closest coffee shops	  
-	  var sqlQueryClosest = "SELECT * FROM mercados ORDER BY the_geom <-> ST_SetSRID(ST_MakePoint("+myLocation.lng+","+myLocation.lat+"), 4326) LIMIT 5";
-
-
- });*/
 
 
 // Database Queries
@@ -599,20 +553,9 @@ function showLayer(){
 
 		// Funcion y controles de leyenda
 		function showLeyend(e){   
-/*
-			if ( $('leaflet-container').attr('class') == 'legend' ) {
-				console.log('hola');
-				$('div.hidden').hidden(); 
-			}
-			else { $( "div.hidden" ).show(1000) };*/
 			  
 		}
 
-
-    
-	 
-
-		
     	if (buttonClicked === 'poblacion'){
              // Añadir capa de poblacion
 		        geoJsonLayer = L.geoJson(data,{
@@ -748,18 +691,8 @@ function showLayer(){
 				plotOptions: {
 					series: {               
 					}
-				},                
-/*				legend: {
-					layout: 'horizontal',
-					align: 'right',
-					verticalAlign: 'top',
-					x: -60,
-					y: 10,
-					floating: true,
-					borderWidth: 1,
-					backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-					shadow: true
-				},*/
+				},        
+
 				credits: {
 					enabled: false
 				},
@@ -879,8 +812,6 @@ function showLayer(){
 return addLayer;   
 };
 
-
-
 function showPointLayer(){
 	$('#todo').addClass('unvisible');
         
@@ -912,10 +843,6 @@ function showPointLayer(){
             },
             onEachFeature: onEachFeature
         }).addTo(map);  
-
-
-
-
 
 function addChart(e) {
     
@@ -1017,11 +944,3 @@ function addChart(e) {
 
     };
 };
-
-
-
-
-
-
-
-

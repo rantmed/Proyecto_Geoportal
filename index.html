@@ -5,7 +5,7 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Un ejemplo completo de Leaflet" />
-	<meta name="keywords" content="visor, cartografía, html5, css3, javascript, leaflet" />
+	<meta name="keywords" content="visor, cartografía, html, css, javascript, leaflet" />
 	<link rel="shortcut icon" type="image/x-icon" href="images/icon.png" >
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
@@ -19,13 +19,13 @@
 	<div class="cabecera" > <p class="text-center titulo">Bienvenidos al portal Geoestadístico de Sevilla</p> 
 		<div class="container-fluid navegador">
 			<ul class="nav nav-tabs">
-				<li class="active"><a data-toggle="tab" href="#home" id="verdatos">Consulta de datos</a></li>
-				<li><a data-toggle="tab" href="#menu1" id="localizame">¿Qué hay cerca de mi?</a></li>
+				<li class="active"><a data-toggle="tab" href="#home" id="displayData">Consulta de datos</a></li>
+				<li class="inactive"><a data-toggle="tab" href="#menu1" id="locateMe">¿Qué hay cerca de mi?</a></li>
 			</ul>
 			<div class="tab-content">
 				<div id="home" class="tab-pane fade in active">
 					<div class="text-center">
-						<div class="btn-group buttStyle">
+						<div class="btn-group queryData">
 							<button id="poblaciones" type="button" class="botoncolor btn btn-primary">
 								<i class="glyphicon glyphicon-stats"></i> POBLACIÓN
 							</button>
@@ -37,7 +37,7 @@
 								<li><a id="piramide" href="#">Distribución por sexo y edades 2016</a></li>
 							</ul>
 						</div>
-						<div class="btn-group buttStyle">
+						<div class="btn-group queryData">
 							<button id="indicadores" type="button" class="botoncolor btn btn-primary ">
 								<i class="glyphicon glyphicon-leaf"></i> INDICADORES AMBIENTALES
 							</button>
@@ -53,16 +53,16 @@
 				</div>
 				<div id="menu1" class="tab-pane fade">
 					<div class='text-center'>
-						<div class="btn-group buttonsStyle ">
+						<div class="btn-group locationButton ">
 							<button id="mySearch" type="button" class="botoncolor btn btn-primary" data-toggle="tooltip" data-placement="top" title="Añadir mi ubicación"><i class="glyphicon glyphicon-map-marker"></i>Añadir mi ubicación al mapa</button>
 						</div>
 						<p class='text-center texto'> <strong> Seleccione una capa </strong></p>
-						<div class="btn-group buttonStyle">
+						<div class="btn-group selectButton">
 							<span class="button-checkbox">
 								<button id="school" type="button" class="btn btn-primary" data-color="primary">
 								<i class="fa fa-graduation-cap"></i> Equipamiento Escolar</button>
 								<input type="checkbox" class="hidden" />
-								</span>
+								</span>								
 								<span class="button-checkbox">
 								<button id="servicios" type="button" class="btn btn-primary" data-color="primary">
 								<i class="glyphicon glyphicon-info-sign"></i> Servicios Municipales</button>
@@ -86,8 +86,8 @@
 	<div id="contenedor">
 		<div id="map">
 			<aside id="todo" class="monitor-title unvisible">
-				<div id="titulo" class="monitor"></div>
-				<div class="grafos" id="grafos"></div>
+				<div id="titleChart" class="monitor"></div>
+				<div class="graficos" id="charts"></div>
 			</aside>
 		</div>
 	</div>

@@ -313,7 +313,7 @@ function showMercados(){
 					layer.bindPopup('<div>' + '<strong>' + feature.properties.nombre + '</strong>' + 
 					'<br/><br/>' + feature.properties.texto + 
 					'<br/><br/>' + feature.properties.m_html + 
-					'<img class="fotos_popup" src="' + feature.properties.foto + '"' +  '>  </img></div>');
+					'<img class="popupPhoto" src="' + feature.properties.foto + '"' +  '>  </img></div>');
 					layer.cartodb_id=feature.properties.cartodb_id;
 				}
 			}).addTo(map);

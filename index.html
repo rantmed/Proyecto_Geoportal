@@ -20,7 +20,7 @@
 		<div class="container-fluid navegador">
 			<ul class="nav nav-tabs">
 				<li class="active"><a data-toggle="tab" href="#home" id="displayData">Consulta de datos</a></li>
-				<li class="inactive"><a data-toggle="tab" href="#menu1" id="locateMe">¿Qué hay cerca de mi?</a></li>
+				<li class="inactive"><a data-toggle="tab" href="#menu1" id="nearMe">¿Qué hay cerca de mi?</a></li>
 			</ul>
 			<div class="tab-content">
 				<div id="home" class="tab-pane fade in active">
@@ -54,7 +54,7 @@
 				<div id="menu1" class="tab-pane fade">
 					<div class='text-center'>
 						<div class="btn-group locationButton ">
-							<button id="mySearch" type="button" class="botoncolor btn btn-primary" data-toggle="tooltip" data-placement="top" title="Añadir mi ubicación"><i class="glyphicon glyphicon-map-marker"></i>Añadir mi ubicación al mapa</button>
+							<button id="locateMe" type="button" class="botoncolor btn btn-primary" data-toggle="tooltip" data-placement="top" title="Añadir mi ubicación"><i class="glyphicon glyphicon-map-marker"></i>Añadir mi ubicación al mapa</button>
 						</div>
 						<p class='text-center texto'> <strong> Seleccione una capa </strong></p>
 						<div class="btn-group selectButton">
@@ -69,7 +69,7 @@
 								<input type="checkbox" class="hidden" checked />
 								</span>
 								<span class="button-checkbox">
-								<button id="bibliotecas" type="button" class="btn btn-primary" data-color="primary"><i class="fa fa-book"></i> Bibliotecas</button>
+								<button id="libraries" type="button" class="btn btn-primary" data-color="primary"><i class="fa fa-book"></i> Bibliotecas</button>
 								<input type="checkbox" class="hidden" checked />
 								</span>
 								<span class="button-checkbox">
@@ -85,9 +85,9 @@
 
 	<div id="contenedor">
 		<div id="map">
-			<aside id="todo" class="monitor-title unvisible">
+			<aside id="displayChart" class="monitor-title unvisible">
 				<div id="titleChart" class="monitor"></div>
-				<div class="graficos" id="charts"></div>
+				<div id="charts" class="graficos" ></div>
 			</aside>
 		</div>
 	</div>

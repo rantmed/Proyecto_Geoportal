@@ -6,12 +6,12 @@ var $piramide = $('#piramide');
 var $aire = $('#aire');
 var $titleChart = $('#titleChart');
 var $school = $('#school');
-var $mySearch = $('#mySearch');
+var $locateMe = $('#locateMe');
 var $servicios = $('#servicios');
-var $bibliotecas = $('#bibliotecas');
+var $libraries = $('#libraries');
 var $mercados = $('#mercados');
-var $localizame = $('#locateMe');
-var $verdatos = $('#displayData');
+var $nearMe = $('#nearMe');
+var $displayData = $('#displayData');
 var $contenedor = $('#contenedor');
 
 // Mapbox maps variables
@@ -51,291 +51,19 @@ var myLocation = null;
 // Set Global Variable that will hold the marker that goes at our location when found
 var locationMarker = {};
 
-// Set 'Your Location' and  icon
-var myIcon = L.icon({
-	iconUrl: 'images/female.png',
-	shadowUrl: 'images/marker-shadow.png',
-	iconAnchor: [13, 41]
-});
-
-var schoolIcon =L.AwesomeMarkers.icon({
-	icon: 'fa-graduation-cap', 
-	markerColor: 'green', 
-	prefix: 'fa', 
-	iconColor: 'black'
-});
-
-var biblioIcon = L.AwesomeMarkers.icon({
-	icon: 'fa-book', 
-	markerColor: 'blue', 
-	prefix: 'fa', 
-	iconColor: 'black'
-});
-
-var servicesIcon = L.AwesomeMarkers.icon({
-	icon: 'glyphicon-info-sign', 
-	markerColor: 'orange', 
-	prefix: 'glyphicon', 
-	iconColor: 'black'
-});
-
-var marketIcon = L.AwesomeMarkers.icon({
-	icon: 'glyphicon-shopping-cart', 
-	markerColor: 'purple', 
-	prefix: 'glyphicon', 
-	iconColor: 'black'
-});
-
-var redMarker = L.AwesomeMarkers.icon({
-	icon: 'fa-user-circle', 
-	markerColor: 'red', 
-	prefix: 'fa', 
-	iconColor: 'black'
-});
-
- var pollutionMarker = L.AwesomeMarkers.icon({
-	icon: 'fa-exclamation-triangle', 
-	markerColor: 'green', 
-	prefix: 'fa', 
-	iconColor: 'yellow'
-});
-
-
-$mySearch.on("click", function(e) {
-	e.preventDefault();
-	$mySearch.toggleClass('activeButton');
-
-	if(map.hasLayer(geoJsonLayer)){
-		map.removeLayer(geoJsonLayer);
-	};
-
-	var buttonClicked = $(event.target).attr('class');
-		if (buttonClicked === 'botoncolor btn btn-primary activeButton'){
-			function geoFindMe(position) {
-				var lat  = position.coords.latitude;
-				var lng = position.coords.longitude;
-				var latLng = {lat, lng};
-				myLocation = latLng;
-				locationMarker = L.marker(latLng, {icon: redMarker})
-				map.addLayer(locationMarker);
-				map.setView([lat, lng], 14);
-			};
-		}
-
-		else if (buttonClicked === 'botoncolor btn btn-primary'){
-			console.log('eliminar');
-			map.removeLayer(locationMarker);
-		}
- 
-	navigator.geolocation.getCurrentPosition(geoFindMe);
- 
-});
-
-
-var schoolLocations ={};
-var servicesLocations ={};
-var biblioLocations ={};
-var marketLocations ={};
-
-
-$school.on("click", function(e) {
-	e.preventDefault();
-	$school.toggleClass('activeButton');
-	var buttonClicked = $(event.target).attr('class');
-	if (buttonClicked === 'btn btn-primary activeButton'){
-		console.log('añadir');
-		showSchool();
-	}
-
-	else if (buttonClicked === 'btn btn-primary'){
-		console.log('eliminar');
-		removeSchool();
-	}
- });
-
-function showSchool(){
-	var sqlQueryClosest = "SELECT * FROM equipamiento_escolar ORDER BY the_geom <-> ST_SetSRID(ST_MakePoint("+myLocation.lng+","+myLocation.lat+"), 4326) LIMIT 5";
-		$.ajax({
-		metod : 'GET',
-		url: "https://"+cartoDBUserName+".carto.com/api/v2/sql?format=GeoJSON&q="+sqlQueryClosest,
-		context: this,
-		//async: false,		
-		dataType: 'json',
-		success: addData });
-
-	function addData (data){
-		schoolLocations = L.geoJson(data, {
-			pointToLayer: function (feature, latlng) {
-					 return L.marker(latlng, {icon:schoolIcon});
-					},
-			onEachFeature: function (feature, layer) {
-				 layer.bindPopup('<div>' + '<strong>' + feature.properties.nombre + '</strong>' + '<br/>' + feature.properties.tipo + 
-				'<br/><br/>' + feature.properties.direccion + 
-				'<br/>' + feature.properties.telefono + '<br/><br/>' +
-				'<a href="' + feature.properties.web + '"' +  'target="_blank"> Ir a la web </a></div>'
-				 );
-				layer.cartodb_id=feature.properties.cartodb_id;
-			}
-		}).addTo(map);
-	};
-};
-
-function removeSchool(){
-  map.removeLayer(schoolLocations);
- };
-
-$servicios.on("click", function(e) {
-	e.preventDefault();
-	console.log('botonservicios')
-	$servicios.toggleClass('activeButton');
-	var buttonClicked = $(event.target).attr('class');
-	if (buttonClicked === 'btn btn-primary activeButton'){
-		console.log('añadir');
-		showServicios();
-	}
-
-	else if (buttonClicked === 'btn btn-primary'){
-		console.log('eliminar');
-		removeServicios();   
-	}
-});
-
-function showServicios(){
-	var sqlQueryClosest = "SELECT * FROM servicios_municipales ORDER BY the_geom <-> ST_SetSRID(ST_MakePoint("+myLocation.lng+","+myLocation.lat+"), 4326) LIMIT 5";
-	$.ajax({
-		metod : 'GET',
-		url: "https://"+cartoDBUserName+".carto.com/api/v2/sql?format=GeoJSON&q="+sqlQueryClosest,
-		context: this,
-		//async: false,		
-		 dataType: 'json',
-		success: addData });
-
-		function addData (data){
-			servicesLocations = L.geoJson(data, {
-				pointToLayer: function (feature, latlng) {
-					return L.marker(latlng, {icon:servicesIcon});
-				},
-				onEachFeature: function (feature, layer) {
-					layer.bindPopup('<div>' + '<strong>' + feature.properties.nombre + '</strong>' + 
-						'<br/><br/>' + feature.properties.direccion + 
-						'<br/>' + feature.properties.telefono + '<br/><br/>' +
-						'<a href="' + feature.properties.web + '"' +  'target="_blank"> Ir a la web </a></div>' );
-					layer.cartodb_id=feature.properties.cartodb_id;
-				}
-			}).addTo(map);
-		};
-};
-
-
-function removeServicios(){
-	map.removeLayer(servicesLocations);
-};
-
-$bibliotecas.on("click", function(e) {
-	e.preventDefault();
-	$bibliotecas.toggleClass('activeButton');
-	var buttonClicked = $(event.target).attr('class');
-		if (buttonClicked === 'btn btn-primary activeButton'){
-			console.log('añadir');
-			showBibliotecas();
-		}
-
-		else if (buttonClicked === 'btn btn-primary'){
-			console.log('eliminar');
-			removeBibliotecas();
-		}
-});
-
-function showBibliotecas(){
-	var sqlQueryClosest = "SELECT * FROM bibliotecas ORDER BY the_geom <-> ST_SetSRID(ST_MakePoint("+myLocation.lng+","+myLocation.lat+"), 4326) LIMIT 5";
-		$.ajax({
-			metod : 'GET',
-			url: "https://"+cartoDBUserName+".carto.com/api/v2/sql?format=GeoJSON&q="+sqlQueryClosest,
-			context: this,
-			//async: false,
-			dataType: 'json',
-			success: addData });
-
-			function addData (data){
-				biblioLocations = L.geoJson(data, {
-					pointToLayer: function (feature, latlng) {
-					return L.marker(latlng, {icon:biblioIcon});
-					},
-					onEachFeature: function (feature, layer) {
-						layer.bindPopup('<div>' + '<strong>' + feature.properties.nombre + '</strong>' + 
-						'<br/><br/>' + feature.properties.direccion + 
-						'<br/>' + feature.properties.telefono + '<br/><br/>' +
-						'<a href="' + feature.properties.web + '"' +  'target="_blank"> Ir a la web </a></div>' +
-						'<img class="popupPhoto" src="' + feature.properties.fotos + '"' +  '>  </img></div>');
-						layer.cartodb_id=feature.properties.cartodb_id;
-					}
-				}).addTo(map);
-			};
-};
-
-
-function removeBibliotecas(){
-	map.removeLayer(biblioLocations);
-};
-
-
-$mercados.on("click", function(e) {
-	e.preventDefault();
-	$mercados.toggleClass('activeButton');
-	var buttonClicked = $(event.target).attr('class');
-		if (buttonClicked === 'btn btn-primary activeButton'){
-			console.log('añadir');
-			showMercados();
-		}
-		else if (buttonClicked === 'btn btn-primary'){
-			console.log('eliminar');
-			removeMercados();
-		}
-});
-
-
-function showMercados(){
-	var sqlQueryClosest = "SELECT * FROM mercados ORDER BY the_geom <-> ST_SetSRID(ST_MakePoint("+myLocation.lng+","+myLocation.lat+"), 4326) LIMIT 5";
-	$.ajax({
-		metod : 'GET',
-		url: "https://"+cartoDBUserName+".carto.com/api/v2/sql?format=GeoJSON&q="+sqlQueryClosest,
-		context: this,
-		//async: false,         
-		dataType: 'json',
-		success: addData });
-
-		function addData (data){
-			marketLocations = L.geoJson(data, {
-				pointToLayer: function (feature, latlng) {
-					return L.marker(latlng, {icon:marketIcon});
-				},
-				onEachFeature: function (feature, layer) {
-					layer.bindPopup('<div>' + '<strong>' + feature.properties.nombre + '</strong>' + 
-					'<br/><br/>' + feature.properties.texto + 
-					'<br/><br/>' + feature.properties.m_html + 
-					'<img class="popupPhoto" src="' + feature.properties.foto + '"' +  '>  </img></div>');
-					layer.cartodb_id=feature.properties.cartodb_id;
-				}
-			}).addTo(map);
-		};
-};
-
-function removeMercados(){
-	map.removeLayer(marketLocations);
-};
-
 
 // Database Queries
 // Will go here
-// Get all coffee cafes from dataset
-var sqlQuery = "SELECT * FROM todo";
-// Get all coffee cafes from dataset
-var sqlQueryPuntos = "SELECT * FROM puntos_buena_3 ";
+// Get all data from dataset
+var sqlQuery = "SELECT * FROM info_distritos";
+
+// Get all stations from dataset
+var sqlQueryEstaciones = "SELECT * FROM estaciones_medicion ";
  
 // Set CARTO Username
 var cartoDBUserName = "rantmed87";
 
-// Function to add Style to park layer
+// Function to add color to park layer
 function getColorPark(d) {
 	return  d > 600000 ? '#005824' :
 		d > 400000 ? '#238b45' :
@@ -413,15 +141,15 @@ function piramideStyle(feature) {
 	};
 }
 
-$localizame.on("click", function(e) {
+$nearMe.on("click", function(e) {
 	e.preventDefault();
-	$('#todo').addClass('unvisible');
+	$('#displayChart').addClass('unvisible');
 	if(map.hasLayer(geoJsonLayer)){
 		map.removeLayer(geoJsonLayer);
 	};
 });
 
-$verdatos.on("click", function(e) {
+$displayData.on("click", function(e) {
 	e.preventDefault();
 	if(map.hasLayer(locationMarker)){
 		map.removeLayer(locationMarker);
@@ -429,8 +157,8 @@ $verdatos.on("click", function(e) {
 	if(map.hasLayer(marketLocations)){
 		map.removeLayer(marketLocations);
 	};
-	if(map.hasLayer(biblioLocations)){
-		map.removeLayer(biblioLocations);
+	if(map.hasLayer(libraryLocations)){
+		map.removeLayer(libraryLocations);
 	};
 	if(map.hasLayer(servicesLocations)){
 		map.removeLayer(servicesLocations);
@@ -464,7 +192,7 @@ $aire.on("click", function(e) {
 	e.preventDefault();
 	$('.info.legend.leaflet-control').empty();
 	showPointLayer();
-	$('#todo').addClass('unvisible');
+	$('#displayChart').addClass('unvisible');
 });
 
 // Functions to add layers
@@ -594,7 +322,7 @@ function showLayer(){
 			var telefono = layer.feature.properties.telefono;
 			var fax = layer.feature.properties.fax
 			var superficie = layer.feature.properties.area_2;
-			$('#todo').toggleClass('unvisible');
+			$('#displayChart').toggleClass('unvisible');
 			titleChart.innerText = distrito +' '+' '+' '+ " Dirección: " +direccion + ' Telefono: ' + telefono + " Superficie: " + superficie
 
 			var categories = ['0-4', '5-9', '10-14', '15-19',
@@ -758,7 +486,7 @@ function showLayer(){
 };
 
 function showPointLayer(){
-	$('#todo').addClass('unvisible');
+	$('#displayChart').addClass('unvisible');
 		if(map.hasLayer(geoJsonLayer)){
 			map.removeLayer(geoJsonLayer);
 		};
@@ -768,7 +496,7 @@ function showPointLayer(){
 		// Get CARTO selection as GeoJSON and Add to Map
 		$.ajax({
 			metod : 'GET',
-			url: "https://"+cartoDBUserName+".carto.com/api/v2/sql?format=GeoJSON&q="+sqlQueryPuntos, 
+			url: "https://"+cartoDBUserName+".carto.com/api/v2/sql?format=GeoJSON&q="+sqlQueryEstaciones, 
 			dataType: 'json',
 			success: addBarrios });
 
@@ -790,7 +518,7 @@ function showPointLayer(){
 					function addChart(e) {					
 						var layer = e.target;
 						var nombre = layer.feature.properties.nombre;
-						$('#todo').toggleClass('unvisible');
+						$('#displayChart').toggleClass('unvisible');
 						titleChart.innerText = 'Nombre de la estación de medición:' +' '+ nombre 
 						var categories = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
@@ -871,3 +599,280 @@ function showPointLayer(){
 						};
 				};
 };
+
+
+
+// Set 'Your Location' and  icon
+var myIcon = L.icon({
+	iconUrl: 'images/female.png',
+	shadowUrl: 'images/marker-shadow.png',
+	iconAnchor: [13, 41]
+});
+
+var schoolIcon =L.AwesomeMarkers.icon({
+	icon: 'fa-graduation-cap', 
+	markerColor: 'green', 
+	prefix: 'fa', 
+	iconColor: 'black'
+});
+
+var libraryIcon = L.AwesomeMarkers.icon({
+	icon: 'fa-book', 
+	markerColor: 'blue', 
+	prefix: 'fa', 
+	iconColor: 'black'
+});
+
+var servicesIcon = L.AwesomeMarkers.icon({
+	icon: 'glyphicon-info-sign', 
+	markerColor: 'orange', 
+	prefix: 'glyphicon', 
+	iconColor: 'black'
+});
+
+var marketIcon = L.AwesomeMarkers.icon({
+	icon: 'glyphicon-shopping-cart', 
+	markerColor: 'purple', 
+	prefix: 'glyphicon', 
+	iconColor: 'black'
+});
+
+var redMarker = L.AwesomeMarkers.icon({
+	icon: 'fa-user-circle', 
+	markerColor: 'red', 
+	prefix: 'fa', 
+	iconColor: 'black'
+});
+
+ var pollutionMarker = L.AwesomeMarkers.icon({
+	icon: 'fa-exclamation-triangle', 
+	markerColor: 'green', 
+	prefix: 'fa', 
+	iconColor: 'yellow'
+});
+
+
+$locateMe.on("click", function(e) {
+	e.preventDefault();
+	$locateMe.toggleClass('activeButton');
+
+	if(map.hasLayer(geoJsonLayer)){
+		map.removeLayer(geoJsonLayer);
+	};
+
+	var buttonClicked = $(event.target).attr('class');
+		if (buttonClicked === 'botoncolor btn btn-primary activeButton'){
+			function geoFindMe(position) {
+				var lat  = position.coords.latitude;
+				var lng = position.coords.longitude;
+				var latLng = {lat, lng};
+				myLocation = latLng;
+				locationMarker = L.marker(latLng, {icon: redMarker})
+				map.addLayer(locationMarker);
+				map.setView([lat, lng], 14);
+			};
+		}
+
+		else if (buttonClicked === 'botoncolor btn btn-primary'){
+			console.log('eliminar');
+			map.removeLayer(locationMarker);
+		}
+ 
+	navigator.geolocation.getCurrentPosition(geoFindMe);
+ 
+});
+
+
+var schoolLocations ={};
+var servicesLocations ={};
+var libraryLocations ={};
+var marketLocations ={};
+
+
+$school.on("click", function(e) {
+	e.preventDefault();
+	$school.toggleClass('activeButton');
+	var buttonClicked = $(event.target).attr('class');
+	if (buttonClicked === 'btn btn-primary activeButton'){
+		console.log('añadir');
+		showSchool();
+	}
+
+	else if (buttonClicked === 'btn btn-primary'){
+		console.log('eliminar');
+		removeSchool();
+	}
+ });
+
+function showSchool(){
+	var sqlQueryClosest = "SELECT * FROM equipamiento_escolar ORDER BY the_geom <-> ST_SetSRID(ST_MakePoint("+myLocation.lng+","+myLocation.lat+"), 4326) LIMIT 5";
+		$.ajax({
+		metod : 'GET',
+		url: "https://"+cartoDBUserName+".carto.com/api/v2/sql?format=GeoJSON&q="+sqlQueryClosest,
+		context: this,
+		//async: false,		
+		dataType: 'json',
+		success: addData });
+
+	function addData (data){
+		schoolLocations = L.geoJson(data, {
+			pointToLayer: function (feature, latlng) {
+					 return L.marker(latlng, {icon:schoolIcon});
+					},
+			onEachFeature: function (feature, layer) {
+				 layer.bindPopup('<div>' + '<strong>' + feature.properties.nombre + '</strong>' + '<br/>' + feature.properties.tipo + 
+				'<br/><br/>' + feature.properties.direccion + 
+				'<br/>' + feature.properties.telefono + '<br/><br/>' +
+				'<a href="' + feature.properties.web + '"' +  'target="_blank"> Ir a la web </a></div>'
+				 );
+				layer.cartodb_id=feature.properties.cartodb_id;
+			}
+		}).addTo(map);
+	};
+};
+
+function removeSchool(){
+  map.removeLayer(schoolLocations);
+ };
+
+$servicios.on("click", function(e) {
+	e.preventDefault();
+	console.log('botonservicios')
+	$servicios.toggleClass('activeButton');
+	var buttonClicked = $(event.target).attr('class');
+	if (buttonClicked === 'btn btn-primary activeButton'){
+		console.log('añadir');
+		showServicios();
+	}
+
+	else if (buttonClicked === 'btn btn-primary'){
+		console.log('eliminar');
+		removeServicios();   
+	}
+});
+
+function showServicios(){
+	var sqlQueryClosest = "SELECT * FROM servicios_municipales ORDER BY the_geom <-> ST_SetSRID(ST_MakePoint("+myLocation.lng+","+myLocation.lat+"), 4326) LIMIT 5";
+	$.ajax({
+		metod : 'GET',
+		url: "https://"+cartoDBUserName+".carto.com/api/v2/sql?format=GeoJSON&q="+sqlQueryClosest,
+		context: this,
+		//async: false,		
+		 dataType: 'json',
+		success: addData });
+
+		function addData (data){
+			servicesLocations = L.geoJson(data, {
+				pointToLayer: function (feature, latlng) {
+					return L.marker(latlng, {icon:servicesIcon});
+				},
+				onEachFeature: function (feature, layer) {
+					layer.bindPopup('<div>' + '<strong>' + feature.properties.nombre + '</strong>' + 
+						'<br/><br/>' + feature.properties.direccion + 
+						'<br/>' + feature.properties.telefono + '<br/><br/>' +
+						'<a href="' + feature.properties.web + '"' +  'target="_blank"> Ir a la web </a></div>' );
+					layer.cartodb_id=feature.properties.cartodb_id;
+				}
+			}).addTo(map);
+		};
+};
+
+
+function removeServicios(){
+	map.removeLayer(servicesLocations);
+};
+
+$libraries.on("click", function(e) {
+	e.preventDefault();
+	$libraries.toggleClass('activeButton');
+	var buttonClicked = $(event.target).attr('class');
+		if (buttonClicked === 'btn btn-primary activeButton'){
+			console.log('añadir');
+			showlibraries();
+		}
+
+		else if (buttonClicked === 'btn btn-primary'){
+			console.log('eliminar');
+			removelibraries();
+		}
+});
+
+function showlibraries(){
+	var sqlQueryClosest = "SELECT * FROM bibliotecas ORDER BY the_geom <-> ST_SetSRID(ST_MakePoint("+myLocation.lng+","+myLocation.lat+"), 4326) LIMIT 5";
+		$.ajax({
+			metod : 'GET',
+			url: "https://"+cartoDBUserName+".carto.com/api/v2/sql?format=GeoJSON&q="+sqlQueryClosest,
+			context: this,
+			//async: false,
+			dataType: 'json',
+			success: addData });
+
+			function addData (data){
+				libraryLocations = L.geoJson(data, {
+					pointToLayer: function (feature, latlng) {
+					return L.marker(latlng, {icon:libraryIcon});
+					},
+					onEachFeature: function (feature, layer) {
+						layer.bindPopup('<div>' + '<strong>' + feature.properties.nombre + '</strong>' + 
+						'<br/><br/>' + feature.properties.direccion + 
+						'<br/>' + feature.properties.telefono + '<br/><br/>' +
+						'<a href="' + feature.properties.web + '"' +  'target="_blank"> Ir a la web </a></div>' +
+						'<img class="popupPhoto" src="' + feature.properties.fotos + '"' +  '>  </img></div>');
+						layer.cartodb_id=feature.properties.cartodb_id;
+					}
+				}).addTo(map);
+			};
+};
+
+
+function removelibraries(){
+	map.removeLayer(libraryLocations);
+};
+
+
+$mercados.on("click", function(e) {
+	e.preventDefault();
+	$mercados.toggleClass('activeButton');
+	var buttonClicked = $(event.target).attr('class');
+		if (buttonClicked === 'btn btn-primary activeButton'){
+			console.log('añadir');
+			showMercados();
+		}
+		else if (buttonClicked === 'btn btn-primary'){
+			console.log('eliminar');
+			removeMercados();
+		}
+});
+
+
+function showMercados(){
+	var sqlQueryClosest = "SELECT * FROM mercados ORDER BY the_geom <-> ST_SetSRID(ST_MakePoint("+myLocation.lng+","+myLocation.lat+"), 4326) LIMIT 5";
+	$.ajax({
+		metod : 'GET',
+		url: "https://"+cartoDBUserName+".carto.com/api/v2/sql?format=GeoJSON&q="+sqlQueryClosest,
+		context: this,
+		//async: false,         
+		dataType: 'json',
+		success: addData });
+
+		function addData (data){
+			marketLocations = L.geoJson(data, {
+				pointToLayer: function (feature, latlng) {
+					return L.marker(latlng, {icon:marketIcon});
+				},
+				onEachFeature: function (feature, layer) {
+					layer.bindPopup('<div>' + '<strong>' + feature.properties.nombre + '</strong>' + 
+					'<br/><br/>' + feature.properties.texto + 
+					'<br/><br/>' + feature.properties.m_html + 
+					'<img class="popupPhoto" src="' + feature.properties.foto + '"' +  '>  </img></div>');
+					layer.cartodb_id=feature.properties.cartodb_id;
+				}
+			}).addTo(map);
+		};
+};
+
+function removeMercados(){
+	map.removeLayer(marketLocations);
+};
+
+
